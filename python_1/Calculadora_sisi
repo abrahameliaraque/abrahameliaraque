@@ -1,0 +1,31 @@
+def displaymenu() :
+    print("this is the start of the program")
+
+
+
+
+def addnumbers (firstnumber, secondnumber) :
+    sum = firstnumber + secondnumber
+    print("The sum of" + firstnumber + "and" + secondnumber + "is" + sum)
+
+def subtractnumbers (firstnumber, secondnumber) :
+    difference = firstnumber - secondnumber
+    print("the difference of" + firstnumber + "and" + secondnumber + "is" + difference)
+
+    def multiplynumbers (firstnumber, secondnumber) :
+        product = firstnumber * secondnumber
+        print( " the product of " + firstnumber + "and" + secondnumber + "is" + product)
+
+        def dividenumbers  (firstnumber, secondnumber) :
+            quotient = firstnumber / secondnumber
+            print("the quotient of" + firstnumber + "and" + secondnumber + "is" + quotient )
+
+
+        def main() : # this is the main program
+            allfeatures = ["addition", "subtraction", "division", "multiplication"]
+
+            #1 let's display the menu of the user
+            #Display menu ()
+            useroption = int ( input("please select an aption") )
+
+            
