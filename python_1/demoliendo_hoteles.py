@@ -6,6 +6,11 @@ bank_balance = 20 # Balance in dollars
 
 print("My name is: Abraham")
 
+myNames = [ "Abraham", "Eli", "Araque", "Abrahimovich" ]
+
+for eachName in myNames:
+     print( eachName )
+
 # Your name
 name = "Abraham"
 # Use a loop to go through the letters of the name
