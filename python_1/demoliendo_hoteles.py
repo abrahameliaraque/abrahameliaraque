@@ -4,7 +4,8 @@ nickname = "veneko"
 age = 16
 bank_balance = 20 # Balance in dollars
 
-print("My name is: {Abraham}")
+print("My name is: Abraham")
+
 # Your name
 name = "Abraham"
 # Use a loop to go through the letters of the name
