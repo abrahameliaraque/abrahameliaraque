@@ -1,0 +1,19 @@
+h1 {
+    color: crimson;
+    margin: 50px 50px 50px;
+}
+h2 {
+    color: crimson;
+    margin: 50px 50px 50px;
+
+}
+p {
+width: 60%;
+background-color: chartreuse;
+color: black;
+text-align: center;
+line-height: 1.6;
+padding: 50px 50px 50px 50px;
+margin:  50px 50px 50px 50px;
+font-size: 25px ;
+} 
