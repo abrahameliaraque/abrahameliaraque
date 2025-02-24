@@ -1,6 +1,19 @@
-col-1 {
+.col {
 
-    border: solid black  2px ;
+    border: solid black  5px ;
 
 
 }
+
+.row {
+
+    background-color: lightblue;
+    border: solid black 2px;
+}
+
+body {
+
+    color: darkblue;
+}
+
+
