@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicMatch - Your Personal Music Recommender</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>MusicMatch</h1>
+                <p>Find your next favorite song</p>
+            </div>
+            <nav id="navigation">
+                <!-- Navigation links will be dynamically added here -->
+            </nav>
+        </header>
+
+        <!-- Authentication Section -->
+        <section id="auth-section" class="section">
+            <div id="login-container">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <p>Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+            </div>
+
+            <div id="signup-container" class="hidden">
+                <h2>Create an Account</h2>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" required>
+                    </div>
+                    <button type="submit" class="btn">Sign Up</button>
+                </form>
+                <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+            </div>
+        </section>
+
+        <!-- Preferences Collection Section -->
+        <section id="preferences-section" class="section hidden">
+            <h2>Tell us about your music taste</h2>
+            <form id="preferences-form">
+                <div class="form-group">
+                    <label for="favorite-genre">What's your favorite music genre?</label>
+                    <select id="favorite-genre" required>
+                        <option value="">Select a genre</option>
+                        <option value="rock">Rock</option>
+                        <option value="pop">Pop</option>
+                        <option value="hip-hop">Hip-Hop</option>
+                        <option value="r-n-b">R&B</option>
+                        <option value="country">Country</option>
+                        <option value="electronic">Electronic</option>
+                        <option value="jazz">Jazz</option>
+                        <option value="classical">Classical</option>
+                        <option value="metal">Metal</option>
+                        <option value="folk">Folk</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="favorite-artist">Who's your favorite artist?</label>
+                    <input type="text" id="favorite-artist" required>
+                </div>
+                <div class="form-group">
+                    <label for="favorite-song">What's your favorite song?</label>
+                    <input type="text" id="favorite-song" required>
+                </div>
+                <div class="form-group">
+                    <label>What mood do you usually listen to music in?</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="mood" value="happy"> Happy</label>
+                        <label><input type="checkbox" name="mood" value="energetic"> Energetic</label>
+                        <label><input type="checkbox" name="mood" value="sad"> Sad</label>
+                        <label><input type="checkbox" name="mood" value="relaxed"> Relaxed</label>
+                        <label><input type="checkbox" name="mood" value="focused"> Focused</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>How do you prefer to discover new music?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="discovery" value="similar-artists"> Similar to artists I already like</label>
+                        <label><input type="radio" name="discovery" value="trending"> What's trending</label>
+                        <label><input type="radio" name="discovery" value="completely-new"> Completely new genres/styles</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Get Recommendations</button>
+            </form>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section id="recommendations-section" class="section hidden">
+            <h2>Your Music Recommendations</h2>
+            <div id="subscription-banner">
+                <p>You're currently on our <span id="current-plan">Free</span> plan</p>
+                <div id="upgrade-container">
+                    <p>Upgrade to Premium for just $15/month to listen to full songs!</p>
+                    <button id="upgrade-btn" class="btn">Upgrade to Premium</button>
+                </div>
+                <div id="premium-status" class="hidden">
+                    <p>You're a Premium member! Enjoy unlimited listening.</p>
+                </div>
+            </div>
+            <div id="recommendations-container">
+                <!-- Recommendations will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="section hidden">
+            <h2>Your Profile</h2>
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-image">
+                        <img id="profile-pic" src="/api/placeholder/150/150" alt="Profile Picture">
+                        <input type="file" id="profile-pic-upload" accept="image/*" class="hidden">
+                        <button id="change-pic-btn" class="btn small">Change Picture</button>
+                    </div>
+                    <div class="profile-info">
+                        <h3 id="profile-name">User Name</h3>
+                        <p id="profile-email">user@example.com</p>
+                        <p>Member since: <span id="member-since">January 1, 2025</span></p>
+                        <p>Subscription: <span id="subscription-status">Free</span></p>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button id="logout-btn" class="btn">Logout</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Modal -->
+        <div id="payment-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Upgrade to Premium</h2>
+                <p>Enjoy unlimited listening for just $15/month</p>
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="card-expiry">Expiration Date</label>
+                            <input type="text" id="card-expiry" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-cvc">CVC</label>
+                            <input type="text" id="card-cvc" placeholder="123" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-name">Name on Card</label>
+                        <input type="text" id="card-name" required>
+                    </div>
+                    <button type="submit" class="btn">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 MusicMatch. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Message notification -->
+    <div id="notification" class="hidden">
+        <p id="notification-text"></p>
+    </div>
+
+    <script src="app.js"></script>
+
+    <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js"></script>
+
+<!-- Tu configuración -->
+<script src="firebase-config.js"></script>
+
+<!-- Tu código -->
+<script src="script.js"></script>
+
+</body>
+</html>
