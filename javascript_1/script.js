@@ -729,3 +729,12 @@ document.addEventListener('DOMContentLoaded', () => {
        }
    });
 });
+
+db.collection("usuarios").get().then((querySnapshot) => {
+   document.body.innerHTML += "<h2>Conectado a Firebase ✅</h2>";
+ 
+   querySnapshot.forEach((doc) => {
+     document.body.innerHTML += `<p>${doc.data().nombre}</p>`;
+   });
+ });
+ 
